@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERSONNEL - Professional Training Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{--bg:#0a0e27;--s1:#111733;--s2:#16213e;--s3:#1f3a5f;--acc:#a78bfa;--acc2:#8b5cf6;--blue:#3b82f6;--green:#22c55e;--red:#ef4444;--gold:#fbbf24;--txt:#f1f5f9;--muted:#94a3b8}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--txt);overflow-x:hidden;background:var(--bg)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--s1)}
+::-webkit-scrollbar-thumb{background:var(--acc);border-radius:10px}
+
+.hidden{display:none!important}
+.btn{padding:12px 24px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(167,139,250,.3)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none}
+.btn-outline{border:2px solid var(--acc);color:var(--acc);background:transparent}
+.btn-full{width:100%;justify-content:center}
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
+
+header{position:sticky;top:0;z-index:1000;background:rgba(10,14,39,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(167,139,250,.1);height:70px;display:flex;align-items:center}
+.header-content{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 24px;gap:20px}
+.logo{font-size:24px;font-weight:800;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+nav{display:flex;gap:24px;align-items:center;flex:1}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;cursor:pointer;transition:color .2s;white-space:nowrap}
+nav a.active{color:var(--acc)}
+nav a:hover{color:var(--acc)}
+.user-section{display:flex;align-items:center;gap:12px;white-space:nowrap}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0}
+
+.page{display:none;min-height:calc(100vh - 70px)}
+.page.active{display:block}
+
+#page-home{background:linear-gradient(135deg,#0a0e27 0%,#1a1f3a 50%,#2d1b69 100%)}
+#page-features{background:linear-gradient(135deg,#1a1f3a 0%,#2d2454 100%)}
+#page-levels{background:linear-gradient(135deg,#2d2454 0%,#1a1f3a 100%)}
+#page-pricing{background:linear-gradient(135deg,#1a2d4d 0%,#2d3a5f 50%,#1a1f3a 100%)}
+#page-contact{background:linear-gradient(135deg,#2d3a5f 0%,#1a2d4d 100%)}
+
+.hero{min-height:calc(100vh - 70px);display:flex;align-items:center;justify-content:center;padding:60px 24px;text-align:center}
+.hero h1{font-size:clamp(36px,8vw,64px);font-weight:800;margin-bottom:16px;line-height:1.2}
+.hero h1 span{background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:var(--muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6}
+.hero-buttons{display:flex;gap:16px;justify-content:center;margin-bottom:48px;flex-wrap:wrap}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:24px;margin-top:64px;padding-top:48px;border-top:1px solid rgba(167,139,250,.1)}
+.stat{text-align:center}
+.stat-num{font-size:32px;font-weight:800;color:var(--acc)}
+.stat-label{font-size:13px;color:var(--muted);margin-top:6px}
+
+.section-header{text-align:center;padding:60px 24px 40px}
+.section-header h2{font-size:42px;font-weight:800;margin-bottom:12px}
+.section-header p{font-size:16px;color:var(--muted);max-width:500px;margin-left:auto;margin-right:auto}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;padding:0 24px 60px}
+.feature-card{background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:32px;transition:all .3s;cursor:pointer}
+.feature-card:hover{border-color:var(--acc);transform:translateY(-5px);box-shadow:0 10px 30px rgba(167,139,250,.2)}
+.feature-icon{font-size:48px;margin-bottom:16px;display:block}
+.feature-card h3{font-size:18px;font-weight:700;margin-bottom:12px}
+.feature-card p{font-size:14px;color:var(--muted);line-height:1.6}
+
+.levels-container{padding:60px 24px}
+.levels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.level-card{background:var(--s1);border:2px solid rgba(167,139,250,.2);border-radius:16px;padding:32px;text-align:center;cursor:pointer;transition:all .3s}
+.level-card:hover{border-color:var(--acc);background:rgba(167,139,250,.05);transform:scale(1.05)}
+.level-badge{display:inline-block;padding:8px 16px;background:var(--acc2);color:#fff;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:16px}
+.level-num{font-size:48px;font-weight:800;color:var(--acc);margin-bottom:8px;line-height:1}
+.level-name{font-size:20px;font-weight:700;margin-bottom:8px}
+.level-info{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6}
+.level-price{font-size:28px;font-weight:800;color:var(--gold);margin-top:16px}
+
+.pricing-container{padding:60px 24px}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.price-card{background:var(--s2);border:1.5px solid rgba(167,139,250,.2);border-radius:16px;padding:32px;text-align:center;transition:all .3s;position:relative}
+.price-card:hover{border-color:var(--acc);transform:translateY(-5px)}
+.price-card.popular{background:var(--s1);border-color:var(--acc);transform:scale(1.05)}
+.price-card.popular::before{content:'POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);padding:6px 16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:11px;font-weight:700;border-radius:20px;white-space:nowrap}
+.price-title{font-size:16px;font-weight:700;margin-bottom:12px}
+.price-amount{font-size:42px;font-weight:800;color:var(--gold);margin:12px 0}
+.price-desc{font-size:13px;color:var(--muted);margin-bottom:20px}
+.price-features{list-style:none;text-align:left;margin:24px 0;font-size:13px}
+.price-features li{padding:8px 0;color:var(--muted);border-bottom:1px solid rgba(167,139,250,.1)}
+.price-features li:before{content:'✓';color:var(--green);font-weight:700;margin-right:8px}
+
+.contact-container{padding:60px 24px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.contact-info h2{font-size:42px;font-weight:800;margin-bottom:24px}
+.contact-info p{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:32px}
+.contact-block{background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:24px;margin-bottom:20px}
+.contact-block h3{font-size:16px;font-weight:700;color:var(--acc);margin-bottom:8px}
+.contact-block p{font-size:14px;color:var(--muted);margin-bottom:4px}
+.contact-block .icon{font-size:28px;margin-bottom:12px}
+.contact-form{background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:32px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 15px;background:var(--s2);border:1.5px solid rgba(167,139,250,.2);border-radius:10px;color:var(--txt);font-size:14px;font-family:'Inter',sans-serif;transition:all .2s}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(167,139,250,.1)}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-group select{cursor:pointer}
+
+#page-dashboard{background:var(--bg);display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 70px)}
+.dash-sidebar{background:var(--s1);border-right:1px solid rgba(167,139,250,.1);padding:24px 16px;position:fixed;width:260px;height:calc(100vh - 70px);overflow-y:auto;top:70px;left:0}
+.dash-sidebar-section{margin-bottom:28px}
+.dash-sidebar-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.dash-btn{width:100%;padding:12px 14px;background:transparent;border:none;border-radius:10px;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;margin-bottom:6px;transition:all .2s;font-family:'Inter',sans-serif}
+.dash-btn:hover{background:rgba(167,139,250,.1);color:var(--txt)}
+.dash-btn.active{background:rgba(167,139,250,.1);color:var(--acc)}
+.dash-main{margin-left:260px;padding:40px;overflow-y:auto;height:calc(100vh - 70px)}
+.dash-tab{display:none}
+.dash-tab.active{display:block}
+
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:32px}
+.stat-box{background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:20px;text-align:center}
+.stat-box h3{font-size:12px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.stat-box .val{font-size:32px;font-weight:800;color:var(--acc)}
+
+.lesson-card{background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:32px;margin-bottom:24px}
+.lesson-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:16px}
+.lesson-title{font-size:20px;font-weight:700}
+.lesson-date{font-size:12px;color:var(--muted)}
+.lesson-content{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px;background:var(--s2);border-left:3px solid var(--acc);padding:16px;border-radius:8px}
+.lesson-content h3{color:var(--txt);margin-bottom:12px;font-size:16px;font-weight:700}
+.lesson-content ul{margin-left:20px;margin-top:8px}
+.lesson-content li{margin-bottom:6px}
+
+.question-section{background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:32px;margin-bottom:24px}
+.q-title{font-size:18px;font-weight:700;margin-bottom:16px}
+.q-text{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:20px;background:var(--s2);border-left:3px solid var(--gold);padding:16px;border-radius:8px}
+.q-textarea{width:100%;padding:16px;background:var(--s2);border:1.5px solid rgba(167,139,250,.2);border-radius:12px;color:var(--txt);font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:140px;margin-bottom:16px}
+.q-textarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(167,139,250,.1)}
+.char-count{font-size:11px;color:var(--muted);text-align:right;margin-bottom:12px}
+
+.challenges-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:16px}
+.challenge-card{background:var(--s1);border:2px solid rgba(167,139,250,.2);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:all .3s}
+.challenge-card:hover:not(.locked){border-color:var(--acc);transform:translateY(-5px)}
+.challenge-card.locked{opacity:.5;cursor:not-allowed}
+.challenge-week{font-size:32px;font-weight:800;color:var(--acc);margin-bottom:8px;line-height:1}
+.challenge-status{font-size:12px;color:var(--muted);display:inline-block;padding:4px 12px;background:var(--s2);border-radius:12px;margin-top:12px}
+
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-content{background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:32px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-header h2{font-size:22px;font-weight:700}
+.modal-close{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;padding:0;width:30px;height:30px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--txt)}
+
+@media(max-width:1024px){
+  #page-dashboard{grid-template-columns:1fr}
+  .dash-sidebar{position:relative;width:100%;height:auto;padding:16px;top:0;left:0;border-right:none;border-bottom:1px solid rgba(167,139,250,.1);max-height:200px;overflow-x:auto;display:flex;gap:16px}
+  .dash-sidebar-section{margin-bottom:0}
+  .dash-main{margin-left:0;padding:24px}
+  .contact-container{grid-template-columns:1fr;gap:40px}
+}
+@media(max-width:768px){
+  nav{gap:12px;font-size:12px}
+  .hero h1{font-size:36px}
+  .section-header h2{font-size:32px}
+  .header-content{flex-wrap:wrap}
+}
+@media(max-width:480px){
+  .logo{font-size:20px}
+  nav{gap:8px}
+  .hero h1{font-size:28px}
+  .hero p{font-size:16px}
+  .hero-buttons{flex-direction:column}
+  .btn-full{width:100%}
+  .modal-content{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-content">
+    <div class="logo"><i class="fas fa-certificate"></i> PERSONNEL</div>
+    <nav id="main-nav">
+      <a class="active" onclick="goPage(event, 'home')">Home</a>
+      <a onclick="goPage(event, 'features')">Features</a>
+      <a onclick="goPage(event, 'levels')">Levels</a>
+      <a onclick="goPage(event, 'pricing')">Pricing</a>
+      <a onclick="goPage(event, 'contact')">Contact</a>
+    </nav>
+    <div class="user-section">
+      <button class="btn btn-outline" id="login-btn" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</button>
+      <div id="user-menu" class="hidden" style="display:flex;align-items:center;gap:12px">
+        <div class="user-avatar" id="avatar">A</div>
+        <div style="min-width:120px">
+          <div id="user-name" style="font-size:13px;font-weight:600;white-space:nowrap"></div>
+          <div style="font-size:11px;color:var(--muted);white-space:nowrap">Student</div>
+        </div>
+        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="container">
+      <h1>Transform Your Career in <span>1 Year</span></h1>
+      <p>University-level professional training with AI grading, daily lessons, weekly challenges, and verified certificates.</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="openSignupModal()"><i class="fas fa-rocket"></i> Get Started</button>
+        <button class="btn btn-outline"><i class="fas fa-play-circle"></i> Learn More</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Students</div></div>
+        <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Rating</div></div>
+        <div class="stat"><div class="stat-num">95%</div><div class="stat-label">Pass Rate</div></div>
+        <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Companies</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES PAGE -->
+<div id="page-features" class="page">
+  <div class="section-header">
+    <h2>Powerful Features</h2>
+    <p>University-level training with AI assistance</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🤖</span>
+      <h3>AI Grading</h3>
+      <p>Claude AI evaluates answers with detailed feedback instantly.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📚</span>
+      <h3>Daily Lessons</h3>
+      <p>New lesson every day covering advanced topics.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🎯</span>
+      <h3>Weekly Challenges</h3>
+      <p>5 comprehensive challenges - one per week per level.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🏆</span>
+      <h3>Certificates</h3>
+      <p>Government-recognized certificates with QR codes.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <h3>Analytics</h3>
+      <p>Track progress with detailed performance insights.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">👥</span>
+      <h3>Community</h3>
+      <p>Connect with 50K+ professionals worldwide.</p>
+    </div>
+  </div>
+</div>
+
+<!-- LEVELS PAGE -->
+<div id="page-levels" class="page">
+  <div class="section-header">
+    <h2>Training Levels</h2>
+    <p>4 levels, 20 tasks, 1 year of university-level training</p>
+  </div>
+  <div class="levels-container">
+    <div class="levels-grid">
+      <div class="level-card">
+        <span class="level-badge">LEVEL 1</span>
+        <div class="level-num">1</div>
+        <div class="level-name">Foundation</div>
+        <div class="level-info"><strong>2 Months</strong><br>5 Tasks (1/week)<br>Daily Lessons</div>
+        <div class="level-price">₦500</div>
+      </div>
+      <div class="level-card">
+        <span class="level-badge">LEVEL 2</span>
+        <div class="level-num">2</div>
+        <div class="level-name">Intermediate</div>
+        <div class="level-info"><strong>2 Months</strong><br>5 Tasks (1/week)<br>Advanced Lessons</div>
+        <div class="level-price">₦1,000</div>
+      </div>
+      <div class="level-card">
+        <span class="level-badge">LEVEL 3</span>
+        <div class="level-num">3</div>
+        <div class="level-name">Advanced</div>
+        <div class="level-info"><strong>3 Months</strong><br>5 Tasks (1/week)<br>Research Projects</div>
+        <div class="level-price">₦1,500</div>
+      </div>
+      <div class="level-card">
+        <span class="level-badge">LEVEL 4</span>
+        <div class="level-num">4</div>
+        <div class="level-name">Expert</div>
+        <div class="level-info"><strong>5 Months</strong><br>5 Tasks (1/week)<br>Expert Projects</div>
+        <div class="level-price">₦2,000</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING PAGE -->
+<div id="page-pricing" class="page">
+  <div class="section-header">
+    <h2>Simple Pricing</h2>
+    <p>Pay per level. All features included.</p>
+  </div>
+  <div class="pricing-container">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-title">Level 1</div>
+        <div class="price-amount">₦500</div>
+        <div class="price-desc">Foundation Certificate</div>
+        <ul class="price-features">
+          <li>Daily lessons (60 days)</li>
+          <li>5 weekly challenges</li>
+          <li>AI grading</li>
+          <li>Progress tracking</li>
+          <li>Official certificate</li>
+        </ul>
+        <button class="btn btn-primary btn-full" onclick="openSignupModal()">Enroll</button>
+      </div>
+      <div class="price-card">
+        <div class="price-title">Level 2</div>
+        <div class="price-amount">₦1,000</div>
+        <div class="price-desc">Advanced Certificate</div>
+        <ul class="price-features">
+          <li>Advanced lessons</li>
+          <li>5 advanced challenges</li>
+          <li>AI grading</li>
+          <li>Analytics dashboard</li>
+          <li>QR verified cert</li>
+        </ul>
+        <button class="btn btn-primary btn-full" onclick="openSignupModal()">Enroll</button>
+      </div>
+      <div class="price-card popular">
+        <div class="price-title">Level 3</div>
+        <div class="price-amount">₦1,500</div>
+        <div class="price-desc">Research Certificate</div>
+        <ul class="price-features">
+          <li>Research projects</li>
+          <li>5 complex challenges</li>
+          <li>Expert AI feedback</li>
+          <li>Performance reports</li>
+          <li>Verified certificate</li>
+        </ul>
+        <button class="btn btn-primary btn-full" onclick="openSignupModal()">Enroll</button>
+      </div>
+      <div class="price-card">
+        <div class="price-title">Level 4</div>
+        <div class="price-amount">₦2,000</div>
+        <div class="price-desc">Master Certification</div>
+        <ul class="price-features">
+          <li>Expert projects</li>
+          <li>5 expert challenges</li>
+          <li>Master AI system</li>
+          <li>Mentorship program</li>
+          <li>Master certificate</li>
+        </ul>
+        <button class="btn btn-primary btn-full" onclick="openSignupModal()">Enroll</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page">
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2>Get in Touch</h2>
+      <p>Have questions about our training program? Contact us via phone, email, or the contact form.</p>
+      
+      <div class="contact-block">
+        <div class="icon">📞</div>
+        <h3>Phone</h3>
+        <p>+234 (0) 708-097-8265</p>
+      </div>
+
+      <div class="contact-block">
+        <div class="icon">💳</div>
+        <h3>Payment (Opay)</h3>
+        <p><strong>Account Name:</strong> Eruvwetere Oghenetejiri</p>
+        <p><strong>Account Number:</strong> 7080978265</p>
+      </div>
+
+      <div class="contact-block">
+        <div class="icon">📧</div>
+        <h3>Email</h3>
+        <p>info@personnel.lms</p>
+      </div>
+
+      <div class="contact-block">
+        <div class="icon">📍</div>
+        <h3>Location</h3>
+        <p>Lagos, Nigeria</p>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:20px">Send Message</h3>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="contact-name" placeholder="Full name">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="contact-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" id="contact-subject" placeholder="Subject">
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="contact-msg" placeholder="Your message..."></textarea>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="sendMessage()"><i class="fas fa-send"></i> Send Message</button>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div id="page-dashboard" class="page">
+  <div class="dash-sidebar">
+    <div class="dash-sidebar-section" style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="dash-btn active" onclick="goTab(event, 'dash-home')"><i class="fas fa-home"></i> Home</button>
+      <button class="dash-btn" onclick="goTab(event, 'dash-lessons')"><i class="fas fa-book"></i> Lessons</button>
+      <button class="dash-btn" onclick="goTab(event, 'dash-challenges')"><i class="fas fa-tasks"></i> Challenges</button>
+      <button class="dash-btn" onclick="goTab(event, 'dash-progress')"><i class="fas fa-chart-bar"></i> Progress</button>
+      <button class="dash-btn" onclick="goTab(event, 'dash-profile')"><i class="fas fa-user"></i> Profile</button>
+    </div>
+    <div class="dash-sidebar-section">
+      <div class="dash-sidebar-label">Quick Stats</div>
+      <div style="background:var(--s2);border-radius:10px;padding:12px;font-size:12px;line-height:1.8">
+        <div>Level: <span id="sb-level" style="color:var(--acc);font-weight:700">1</span></div>
+        <div>Tasks: <span id="sb-tasks" style="color:var(--acc);font-weight:700">0</span>/20</div>
+        <div>Score: <span id="sb-score" style="color:var(--acc);font-weight:700">0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-main">
+    <div class="dash-tab active" id="tab-dash-home">
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:24px">Welcome Back!</h2>
+      <div class="dash-stats">
+        <div class="stat-box"><h3>Tasks Done</h3><div class="val" id="h-tasks">0</div></div>
+        <div class="stat-box"><h3>Current Level</h3><div class="val" id="h-level">1</div></div>
+        <div class="stat-box"><h3>Total Score</h3><div class="val" id="h-score">0</div></div>
+        <div class="stat-box"><h3>Certificates</h3><div class="val" id="h-certs">0</div></div>
+      </div>
+      <div class="lesson-card">
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:12px">Getting Started</h3>
+        <p style="color:var(--muted);line-height:1.8">Welcome to PERSONNEL! Start with today's lesson and complete weekly challenges. You're on track to earn your certification. Each level takes 2-5 months with daily learning.</p>
+      </div>
+    </div>
+
+    <div class="dash-tab" id="tab-dash-lessons">
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:24px">Daily Lessons</h2>
+      <div class="lesson-card">
+        <div class="lesson-header">
+          <div>
+            <div class="lesson-title">Research Methodology Fundamentals</div>
+            <div class="lesson-date">Day 1 - Today</div>
+          </div>
+          <span style="display:inline-block;padding:6px 12px;background:rgba(34,197,94,.15);color:#86efac;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap">NEW</span>
+        </div>
+        <div class="lesson-content">
+          <h3>What is Research Methodology?</h3>
+          <p>Research methodology is the systematic approach used to collect, analyze, and interpret data in academic and professional research. It forms the foundation of credible and reliable research outcomes.</p>
+          <p style="margin-top:12px"><strong>Key Components:</strong></p>
+          <ul>
+            <li>Research design and framework</li>
+            <li>Data collection methods</li>
+            <li>Sampling techniques</li>
+            <li>Data analysis procedures</li>
+            <li>Quality assurance measures</li>
+          </ul>
+        </div>
+        <button class="btn btn-primary" onclick="alert('Lesson marked as complete!')"><i class="fas fa-check"></i> Complete Lesson</button>
+      </div>
+    </div>
+
+    <div class="dash-tab" id="tab-dash-challenges">
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:24px">Weekly Challenges</h2>
+      <p style="color:var(--muted);margin-bottom:24px">Complete 5 challenges - one per week. Each is university-level and tests your understanding.</p>
+      <div class="challenges-grid">
+        <div class="challenge-card" onclick="openChallenge(1)">
+          <div class="challenge-week">1</div>
+          <div style="font-size:13px;font-weight:600;margin:8px 0">Week 1</div>
+          <div class="challenge-status">Available</div>
+        </div>
+        <div class="challenge-card locked">
+          <div class="challenge-week">2</div>
+          <div style="font-size:13px;font-weight:600;margin:8px 0">Week 2</div>
+          <div class="challenge-status">Locked</div>
+        </div>
+        <div class="challenge-card locked">
+          <div class="challenge-week">3</div>
+          <div style="font-size:13px;font-weight:600;margin:8px 0">Week 3</div>
+          <div class="challenge-status">Locked</div>
+        </div>
+        <div class="challenge-card locked">
+          <div class="challenge-week">4</div>
+          <div style="font-size:13px;font-weight:600;margin:8px 0">Week 4</div>
+          <div class="challenge-status">Locked</div>
+        </div>
+        <div class="challenge-card locked">
+          <div class="challenge-week">5</div>
+          <div style="font-size:13px;font-weight:600;margin:8px 0">Week 5</div>
+          <div class="challenge-status">Locked</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-tab" id="tab-dash-progress">
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:24px">Your Progress</h2>
+      <div style="background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:32px">
+        <div style="margin-bottom:24px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-weight:600">Overall Progress</span><span style="color:var(--acc);font-weight:700" id="progress-percent">0%</span></div>
+          <div style="width:100%;height:8px;background:var(--s2);border-radius:10px;overflow:hidden"><div id="progress-bar" style="width:0%;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .3s"></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px">
+          <div style="background:var(--s2);border-radius:12px;padding:16px"><div style="font-size:12px;color:var(--muted);margin-bottom:8px">Level 1 Progress</div><div style="font-size:20px;font-weight:800;color:var(--acc)" id="l1-progress">0/5</div></div>
+          <div style="background:var(--s2);border-radius:12px;padding:16px"><div style="font-size:12px;color:var(--muted);margin-bottom:8px">Total Score</div><div style="font-size:20px;font-weight:800;color:var(--gold)" id="progress-score">0</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-tab" id="tab-dash-profile">
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:24px">My Profile</h2>
+      <div style="background:var(--s1);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:32px;max-width:600px">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="prof-name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="prof-email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Specialization</label>
+          <select id="prof-role">
+            <option>Data Science</option>
+            <option>AI & Machine Learning</option>
+            <option>Education</option>
+            <option>Medicine</option>
+            <option>Environmental Science</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="saveProfile()"><i class="fas fa-save"></i> Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div id="login-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Sign In</h2>
+      <button class="modal-close" onclick="closeLoginModal()" type="button"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="login-email" placeholder="john@example.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="Your password">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+    <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">No account? <a onclick="switchToSignup()" style="color:var(--acc);font-weight:600;cursor:pointer">Sign Up</a></div>
+  </div>
+</div>
+
+<!-- SIGNUP MODAL -->
+<div id="signup-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Create Account</h2>
+      <button class="modal-close" onclick="closeSignupModal()" type="button"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="signup-name" placeholder="John Doe">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="signup-email" placeholder="john@example.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="signup-pass" placeholder="Min 8 characters">
+    </div>
+    <div class="form-group">
+      <label>Specialization</label>
+      <select id="signup-role">
+        <option value="">Select...</option>
+        <option>Data Science</option>
+        <option>AI & Machine Learning</option>
+        <option>Education</option>
+        <option>Medicine</option>
+        <option>Environmental Science</option>
+      </select>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doSignup()"><i class="fas fa-rocket"></i> Create Account</button>
+    <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">Have account? <a onclick="switchToLogin()" style="color:var(--acc);font-weight:600;cursor:pointer">Sign In</a></div>
+  </div>
+</div>
+
+<!-- CHALLENGE MODAL -->
+<div id="challenge-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="challenge-title">Challenge 1</h2>
+      <button class="modal-close" onclick="closeChallengeModal()" type="button"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="question-section" style="border:none;padding:0">
+      <div class="q-title" id="challenge-q-title">Explain research methodology and its importance</div>
+      <div class="q-text" id="challenge-q-text">Provide a comprehensive answer covering definitions, key components, and real-world applications. Minimum 300 characters.</div>
+      <label style="display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;margin:16px 0 8px">Your Answer</label>
+      <textarea class="q-textarea" id="challenge-answer" placeholder="Write your university-level answer here..." oninput="updateCharCount()"></textarea>
+      <div class="char-count" id="challenge-char">0 / 300</div>
+      <button class="btn btn-primary btn-full" onclick="submitChallenge()"><i class="fas fa-paper-plane"></i> Submit Answer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentUser = null;
+let currentPage = 'home';
+
+function goPage(e, page) {
+  e.preventDefault();
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  event.target.classList.add('active');
+  currentPage = page;
+  window.scrollTo(0, 0);
+}
+
+function goTab(e, tab) {
+  e.preventDefault();
+  document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.dash-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function openLoginModal() {
+  document.getElementById('login-modal').classList.add('show');
+}
+
+function closeLoginModal() {
+  document.getElementById('login-modal').classList.remove('show');
+}
+
+function openSignupModal() {
+  document.getElementById('signup-modal').classList.add('show');
+}
+
+function closeSignupModal() {
+  document.getElementById('signup-modal').classList.remove('show');
+}
+
+function openChallenge(num) {
+  document.getElementById('challenge-modal').classList.add('show');
+  document.getElementById('challenge-title').textContent = 'Challenge ' + num;
+  const questions = ['Explain research methodology and its importance', 'Define qualitative and quantitative research', 'Design a research study', 'Critically analyze a research gap', 'Propose innovative research solutions'];
+  document.getElementById('challenge-q-title').textContent = questions[num - 1];
+  document.getElementById('challenge-answer').value = '';
+}
+
+function closeChallengeModal() {
+  document.getElementById('challenge-modal').classList.remove('show');
+}
+
+function switchToSignup() {
+  closeLoginModal();
+  openSignupModal();
+}
+
+function switchToLogin() {
+  closeSignupModal();
+  openLoginModal();
+}
+
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if (!email || !pass) {
+    alert('Please fill all fields');
+    return;
+  }
+  currentUser = { name: 'John Doe', email: email, role: 'Data Science', level: 1, tasks: 0, score: 0, certs: 0 };
+  localStorage.setItem('personnel-user', JSON.stringify(currentUser));
+  closeLoginModal();
+  enterDashboard();
+}
+
+function doSignup() {
+  const name = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const pass = document.getElementById('signup-pass').value;
+  const role = document.getElementById('signup-role').value;
+  if (!name || !email || pass.length < 8 || !role) {
+    alert('Please fill all fields correctly');
+    return;
+  }
+  currentUser = { name: name, email: email, role: role, level: 1, tasks: 0, score: 0, certs: 0 };
+  localStorage.setItem('personnel-user', JSON.stringify(currentUser));
+  closeSignupModal();
+  enterDashboard();
+}
+
+function enterDashboard() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-dashboard').classList.add('active');
+  document.getElementById('login-btn').classList.add('hidden');
+  document.getElementById('user-menu').classList.remove('hidden');
+  updateDashboard();
+}
+
+function updateDashboard() {
+  if (!currentUser) return;
+  document.getElementById('user-name').textContent = currentUser.name;
+  document.getElementById('avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+  document.getElementById('h-tasks').textContent = currentUser.tasks || 0;
+  document.getElementById('h-level').textContent = currentUser.level || 1;
+  document.getElementById('h-score').textContent = currentUser.score || 0;
+  document.getElementById('h-certs').textContent = currentUser.certs || 0;
+  document.getElementById('sb-level').textContent = currentUser.level;
+  document.getElementById('sb-tasks').textContent = currentUser.tasks;
+  document.getElementById('sb-score').textContent = currentUser.score;
+  document.getElementById('prof-name').value = currentUser.name;
+  document.getElementById('prof-email').value = currentUser.email;
+  document.getElementById('prof-role').value = currentUser.role;
+  const progress = (currentUser.tasks / 20) * 100;
+  document.getElementById('progress-percent').textContent = Math.round(progress) + '%';
+  document.getElementById('progress-bar').style.width = progress + '%';
+  document.getElementById('progress-score').textContent = currentUser.score;
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem('personnel-user');
+  document.querySelector('nav a').classList.add('active');
+  document.querySelectorAll('nav a').forEach((a, i) => {
+    if (i === 0) a.classList.add('active');
+    else a.classList.remove('active');
+  });
+  document.getElementById('page-home').classList.add('active');
+  document.getElementById('page-dashboard').classList.remove('active');
+  document.getElementById('login-btn').classList.remove('hidden');
+  document.getElementById('user-menu').classList.add('hidden');
+  window.scrollTo(0, 0);
+}
+
+function updateCharCount() {
+  const len = document.getElementById('challenge-answer').value.length;
+  document.getElementById('challenge-char').textContent = len + ' / 300';
+}
+
+function submitChallenge() {
+  const answer = document.getElementById('challenge-answer').value.trim();
+  if (answer.length < 300) {
+    alert('Answer must be at least 300 characters');
+    return;
+  }
+  currentUser.tasks = (currentUser.tasks || 0) + 1;
+  currentUser.score = (currentUser.score || 0) + 25;
+  localStorage.setItem('personnel-user', JSON.stringify(currentUser));
+  alert('Challenge submitted! Your answer is being graded.');
+  closeChallengeModal();
+  updateDashboard();
+}
+
+function saveProfile() {
+  if (!currentUser) return;
+  currentUser.name = document.getElementById('prof-name').value;
+  currentUser.email = document.getElementById('prof-email').value;
+  currentUser.role = document.getElementById('prof-role').value;
+  localStorage.setItem('personnel-user', JSON.stringify(currentUser));
+  alert('Profile saved successfully!');
+}
+
+function sendMessage() {
+  const name = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  const subject = document.getElementById('contact-subject').value.trim();
+  const msg = document.getElementById('contact-msg').value.trim();
+  if (!name || !email || !subject || !msg) {
+    alert('Please fill all fields');
+    return;
+  }
+  alert('Message sent! We will reply within 24 hours.');
+  document.getElementById('contact-name').value = '';
+  document.getElementById('contact-email').value = '';
+  document.getElementById('contact-subject').value = '';
+  document.getElementById('contact-msg').value = '';
+}
+
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('personnel-user');
+  if (saved) {
+    currentUser = JSON.parse(saved);
+    setTimeout(() => {
+      enterDashboard();
+    }, 300);
+  }
+});
+
+window.addEventListener('beforeunload', () => {
+  if (currentUser) {
+    localStorage.setItem('personnel-user', JSON.stringify(currentUser));
+  }
+});
+</script>
+</body>
+</html>
